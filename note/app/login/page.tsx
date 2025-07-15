@@ -51,7 +51,7 @@ const LoginForm: React.FC = () => {
 
   return (
     <div>
-      <Header/>
+      <Header minimal={true}/>
       <div className="min-h-screen min-w-full flex items-center justify-center">
         <div className="w-full max-w-[500px] mx-auto p-8 rounded shadow-lg bg-white/10 backdrop-blur-sm border border-[#4A9782]">
           <h2 className="text-3xl font-bold text-center mb-6 text-[#DCD0A8]">Login</h2>
