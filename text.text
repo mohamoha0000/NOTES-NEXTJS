@@ -10,3 +10,12 @@ loclahost:5000/new/user
 
 
 npm install formik zod zod-formik-adapter axios
+
+
+
+backend:
+
+npm init -y #start project
+
+
+npm install express cors dotenv pg bcrypt jsonwebtoken express-validator morgan cookie-parser

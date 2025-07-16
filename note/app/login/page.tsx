@@ -8,6 +8,7 @@ import { z } from 'zod';
 import { toFormikValidationSchema } from 'zod-formik-adapter';
 import Link from 'next/link';
 import Header from '@/components/header';
+const apiUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 interface LoginFormValues {
   email: string;
   password: string;
@@ -29,15 +30,18 @@ const validationSchema = z.object({
 const LoginForm: React.FC = () => {
   const router = useRouter();
 
+  try{
+    axios.get(`${apiUrl}/auth/verify`, { withCredentials: true });
+    router.push('/home');
+  }catch(err:any){
+  }
   const onSubmit = async (
     values: LoginFormValues,
     { setSubmitting, setFieldError }: FormikHelpers<LoginFormValues>
   ) => {
     try {
-      const response = await axios.post('/api/login', values);
-      const { token } = response.data;
-      localStorage.setItem('token', token);
-      router.push('/dashboard');
+      const response = await axios.post(`${apiUrl}/auth/login`, values);
+      router.push('/home');
     } catch (err: any) {
       if (err.response?.data?.message) {
         setFieldError('password', err.response.data.message);
