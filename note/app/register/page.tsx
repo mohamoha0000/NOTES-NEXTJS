@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 import axios from 'axios';
 import { Formik, Form, Field, ErrorMessage, FormikHelpers } from 'formik';
 import { z } from 'zod';
@@ -36,17 +37,24 @@ const validationSchema = z.object({
 const LoginForm: React.FC = () => {
   const router = useRouter();
 
-  try{
-      axios.get(`${apiUrl}/auth/verify`, { withCredentials: true });
+  useEffect(() => {
+  const verifyUser = async () => {
+    try {
+      await axios.get(`${apiUrl}/auth/verify`, { withCredentials: true });
       router.push('/home');
-    }catch(err:any){}
+    } catch (err: any) {
+    }
+  };
+
+  verifyUser();
+  }, []);
 
   const onSubmit = async (
     values: LoginFormValues,
     { setSubmitting, setFieldError }: FormikHelpers<LoginFormValues>
   ) => {
     try {
-      const response = await axios.post(`${apiUrl}/auth/login`, values);
+      const response = await axios.post(`${apiUrl}/auth/register`, values);
       router.push('/login');
     } catch (err: any) {
       if (err.response?.data?.message) {
